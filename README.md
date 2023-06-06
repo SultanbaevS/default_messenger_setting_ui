@@ -1,4 +1,4 @@
-# telegram_user_profile_ui
+# Default messenger settings UI
 
 A new Flutter project.
 
