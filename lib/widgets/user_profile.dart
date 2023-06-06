@@ -18,6 +18,33 @@ class UserProfile extends StatelessWidget {
         ),
       ),
       body: const _ScrollableSettingsPage(),
+      bottomNavigationBar: const _BottomNavigationBar(),
+    );
+  }
+}
+
+class _BottomNavigationBar extends StatelessWidget {
+  const _BottomNavigationBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.contacts),
+          label: 'Контакты',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.chat),
+          label: 'Чаты',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.settings),
+          label: 'Настройки',
+        ),
+      ],
+      currentIndex: 2,
+      selectedItemColor: Colors.blueAccent,
     );
   }
 }
