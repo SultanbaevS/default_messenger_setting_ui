@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../data/data.dart';
 
 class UserProfile extends StatelessWidget {
   const UserProfile({Key? key}) : super(key: key);
@@ -54,33 +55,35 @@ class _ScrollableSettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
+    return SingleChildScrollView(
       child: SizedBox(
         width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _UserInfo(
+            const _UserInfo(
               name: 'Saidrasul Sultanbaev',
               phoneNumber: '+998 93 777-77-77',
               nickName: '@sultanbaev_ss',
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            _FirstMenuWidget(),
-            SizedBox(
+            _MenuWidget(
+              menuRow: firstMenuRow,
+            ),
+            const SizedBox(
               height: 20,
             ),
-            _SecondMenuWidget(),
-            SizedBox(
+            _MenuWidget(
+              menuRow: secondMenuRow,
+            ),
+            const SizedBox(
               height: 20,
             ),
-            _SecondMenuWidget(),
-            SizedBox(
-              height: 20,
+            _MenuWidget(
+              menuRow: firstMenuRow,
             ),
-            _SecondMenuWidget(),
           ],
         ),
       ),
@@ -90,8 +93,13 @@ class _ScrollableSettingsPage extends StatelessWidget {
 
 // MENU
 
-class _FirstMenuWidget extends StatelessWidget {
-  const _FirstMenuWidget({Key? key}) : super(key: key);
+class _MenuWidget extends StatelessWidget {
+  final List<MenuRowData> menuRow;
+
+  const _MenuWidget({
+    Key? key,
+    required this.menuRow,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -99,97 +107,18 @@ class _FirstMenuWidget extends StatelessWidget {
       width: double.infinity,
       color: Colors.white,
       child: Column(
-        children: [
-          const _RowMenuWidget(
-            icon: Icons.bookmark,
-            text: 'Избранное',
-            color: Colors.blue,
-          ),
-          const _Divider(),
-          _RowMenuWidget(
-            icon: Icons.call,
-            text: 'Недавние звонки',
-            color: Colors.lightGreen[400],
-          ),
-          const _Divider(),
-          const _RowMenuWidget(
-            icon: Icons.devices,
-            text: 'Устройства',
-            color: Colors.orange,
-          ),
-          const _Divider(),
-          const _RowMenuWidget(
-            icon: Icons.folder,
-            text: 'Папки с чатами',
-            color: Colors.lightBlue,
-          ),
-        ],
+        children: menuRow.map((e) => _RowMenuWidget(data: e)).toList(),
       ),
-    );
-  }
-}
-
-class _SecondMenuWidget extends StatelessWidget {
-  const _SecondMenuWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      color: Colors.white,
-      child: Column(
-        children: [
-          const _RowMenuWidget(
-            icon: Icons.notifications,
-            text: 'Уведомления и звуки',
-            color: Colors.red,
-          ),
-          const _Divider(),
-          const _RowMenuWidget(
-            icon: Icons.lock,
-            text: 'Конфеденциальность',
-            color: Colors.grey,
-          ),
-          const _Divider(),
-          _RowMenuWidget(
-            icon: Icons.storage,
-            text: 'Данные и память',
-            color: Colors.lightGreen[400],
-          ),
-          const _Divider(),
-          const _RowMenuWidget(
-            icon: Icons.brush,
-            text: 'Оформление',
-            color: Colors.lightBlue,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Divider extends StatelessWidget {
-  const _Divider({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Divider(
-      height: .1,
-      thickness: .8,
-      indent: 60,
-      endIndent: 25,
-      color: Colors.grey,
     );
   }
 }
 
 class _RowMenuWidget extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  final Color? color;
-  const _RowMenuWidget(
-      {Key? key, required this.icon, required this.text, required this.color})
-      : super(key: key);
+  final MenuRowData data;
+  const _RowMenuWidget({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -204,11 +133,11 @@ class _RowMenuWidget extends StatelessWidget {
             ),
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: color,
+                color: data.color,
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Icon(
-                icon,
+                data.icon,
                 color: Colors.white,
                 size: 25,
               ),
@@ -220,7 +149,7 @@ class _RowMenuWidget extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              text,
+              data.text,
               style: const TextStyle(fontSize: 15),
             ),
           ),
